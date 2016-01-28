@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsTable extends Migration
+class ChangeTitleFromVarchar255To500InPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,8 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->string('title');
-            $table->text('content')->nullable();
-            
-            $table->timestamps();
+        Schema::table('posts', function (Blueprint $table) {
+            $table->string('title',500)->change();
         });
     }
 
@@ -29,6 +24,8 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('posts');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->string('title')->change();
+        });
     }
 }
